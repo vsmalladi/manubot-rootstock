@@ -61,3 +61,22 @@ then
     --output=output/manuscript.docx \
     $INPUT_PATH
 fi
+
+# Create another pdf
+echo "Exporting test manuscript"
+pandoc \
+  --from=markdown \
+  --to=html5 \
+  --filter pandoc-fignos \
+  --filter pandoc-eqnos \
+  --filter pandoc-tablenos \
+  --filter pandoc-img-glob \
+  --filter build/pandoc-svg.py \
+  --bibliography=$BIBLIOGRAPHY_PATH \
+  --csl=$CSL_PATH \
+  --metadata link-citations=true \
+  --css=github-pandoc.css \
+  --include-in-header=build/assets/analytics.js \
+  --include-after-body=build/assets/anchors.js \
+  --output=output/index.pdf \
+  $INPUT_PATH

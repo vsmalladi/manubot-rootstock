@@ -15,7 +15,8 @@ import urllib
 from pandocfilters import toJSONFilter, Para, Image
 
 fmt_to_option = {
-    "docx": ("--export-pdf", "pdf")
+    "docx": ("--export-pdf", "pdf"),
+    "html5": ("--export-png", "png")
 }
 
 
@@ -49,9 +50,10 @@ def svg_to_any(key, value, fmt, meta):
             except OSError:
                 mtime = -1
             try:
-                 src_mtime = os.path.getmtime(src)
+                 src_mtime = os.path.getmtime(file_name)
             except FileNotFoundError:
                 src_mtime = -1
+            sys.stderr.write(str(src_mtime) + option[0] + "\n")
             if mtime < src_mtime or web_image.match(src):
                 cmd_line = ['inkscape', option[0], eps_name, file_name]
                 sys.stderr.write("Running %s\n" % " ".join(cmd_line))
